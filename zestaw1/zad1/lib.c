@@ -3,73 +3,72 @@
 #include <string.h>
 #include "lib.h"
 
-Array* create(int numberOfBlocks) {
-    if (numberOfBlocks < 0)
+Array* create(int blocks) {
+    if (blocks < 0)
         return NULL;
     Array* result = calloc(1, sizeof(Array));
-    result -> blockArr = calloc(numberOfBlocks, sizeof(char*));
-    result -> arraySize = numberOfBlocks;
+    result -> block_array = calloc(blocks, sizeof(char*));
+    result -> array_size = blocks;
 
     return result;
 }
 
-int addBlock(Array* array, char* block) {
+int add_block(Array* array, char* block) {
     if(array == NULL) {
         fprintf(stderr, "Uninitialised block array\n");
         exit(1);
     }
     int index = 0;
-    while(array->blockArr[index] != NULL) {
+    while(array -> block_array[index] != NULL) {
         index += 1;
     }
-    array -> blockArr[index] = calloc(array->blockSize+1, sizeof(char));
-    strcpy(array -> blockArr[index], block);
+    array -> block_array[index] = calloc(array -> block_size+1, sizeof(char));
+    strcpy(array -> block_array[index], block);
     return index;
 }
 
-int removeBlock(Array* array, int index) {
+int remove_block(Array* array, int index) {
     if(array == NULL) {
         fprintf(stderr, "Uninitialised block array\n");
         exit(1);
     }
-    if(index >= array -> arraySize || index < 0) {
+    if(index >= array -> array_size || index < 0) {
         fprintf(stderr, "Index out of bounds\n");
         exit(1);
     }
-    if(array -> blockArr[index] == NULL) {
-        // fprintf(stderr, "Uninitialised block\n");
+    if(array -> block_array[index] == NULL) {
         return -1;
     }
 
-    free(array -> blockArr[index]);
-    array -> blockArr[index] = NULL;
+    free(array -> block_array[index]);
+    array -> block_array[index] = NULL;
     return 0;
 }
 
-int setDir(Array* array, char* dirname) {
+int set_dir(Array* array, char* dirname) {
     if(array == NULL) {
         fprintf(stderr, "Uninitialised block array\n");
         exit(1);
     }
-    array -> currentDir = dirname;
+    array -> current_dir = dirname;
     return 0;
 }
 
-int setTargetFile(Array* array, char* filename) {
+int set_target(Array* array, char* filename) {
     if(array == NULL) {
         fprintf(stderr, "Uninitialised block array\n");
         exit(1);
     }
-    array -> targetFile = filename;
+    array -> target = filename;
     return 0;
 }
 
-int setTemp(Array* array, char* filename) {
+int set_temp(Array* array, char* filename) {
     if(array == NULL) {
         fprintf(stderr, "Uninitialised blocka array\n");
         exit(1);
     }
-    array -> tempFile = filename;
+    array -> temp_file = filename;
     return 0;
 }
 
@@ -78,43 +77,50 @@ int find(Array* array) {
         fprintf(stderr, "Uninitialised block array\n");
         exit(1);
     }
-    int bufferLength = 32 + strlen(array->currentDir) + strlen(array->targetFile);
+    int bufferLength = 32 + strlen(array -> current_dir) + strlen(array -> target);
     char command[bufferLength];
-    sprintf(command, "find %s -type f -name %s > %s", array->currentDir,
-     array->targetFile, array->tempFile);
+    sprintf(command, "find %s -type f -name %s > %s", array -> current_dir,
+     array -> target, array -> temp_file);
     return system(command);
 }
 
-int read(Array* array) {
+int read_temp(Array* array) {
     if(array == NULL) {
         fprintf(stderr, "Uninitialised block array\n");
         exit(1);
     }
-    FILE* fp = fopen(array -> tempFile, "r");
+    FILE* fp = fopen(array -> temp_file, "r");
     if (fp == NULL) {
-        fprintf(stderr, "Error while reading \"%s\" file", array->tempFile);
+        fprintf(stderr, "Error while reading \"%s\" file", array->temp_file);
         exit(1);
     }
     fseek(fp, 0L, SEEK_END);
-    long size = ftell(fp);
+    unsigned long size = ftell(fp);
+    printf("Size of block: %lu\n", size);
     fseek(fp, 0L, SEEK_SET);
     char* block = calloc(size, sizeof(char));
     if(block) {
         fread(block, 1, size, fp);
     }
+    else {
+        fprintf(stderr, "Error allocating memory for block\n");
+        exit(1);
+    }
     fclose(fp);
-    addBlock(array, block);
+    add_block(array, block);
 
     return 0;
 }
 
-int deleteArray(Array* array) {
+int delete_array(Array* array) {
     if(array == NULL) {
         return 1;
     }
-    for(int i = 0; i < array->arraySize; i++) {
-        removeBlock(array, i);
+    int i;
+    for(i = 0; i < array -> array_size; i++) {
+        remove_block(array, i);
     }
-    free(array -> blockArr);
-    array -> blockArr = NULL;
+    free(array -> block_array);
+    array -> block_array = NULL;
+    return 0;
 }

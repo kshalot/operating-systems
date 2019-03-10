@@ -1,30 +1,31 @@
 #ifndef ZAD1_LIB_H
 #define ZAD1_LIB_H
 
-#define STATIC_ARRAY_SIZE 1000
-#define STATIC_BLOCK_SIZE 100
-
 typedef struct Array {
-    char** blockArr;
-    int arraySize;
-    int blockSize;
-    char* currentDir;
-    char* targetFile;
-    char* tempFile;
+    char** block_array;
+    int array_size;
+    int block_size;
+    char* current_dir;
+    char* target;
+    char* temp_file;
 } Array;
 
 Array* create(int numberOfBlock);
 
-int addBlock(Array* array, char* block);
+int add_block(Array* array, char* block);
 
-int removeBlock(Array* array, int index);
+int remove_block(Array* array, int index);
 
-int setDir(Array* array, char* dirname);
+int set_dir(Array* array, char* dirname);
 
-int setTargetFile(Array* array, char* filename);
+int set_target(Array* array, char* filename);
+
+int set_temp(Array* array, char* filename);
 
 int find(Array* array);
 
-int read(Array* array);
+int read_temp(Array* array);
+
+int delete_array(Array* array);
 
 #endif
