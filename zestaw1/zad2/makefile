@@ -20,7 +20,6 @@ shared:
 
 clean:
 	rm -f *.o
-	rm -f *.a
 
 purge: clean
 	rm -f *.so

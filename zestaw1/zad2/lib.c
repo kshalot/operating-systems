@@ -116,7 +116,8 @@ int delete_array(Array* array) {
     if(array == NULL) {
         return 1;
     }
-    for(int i = 0; i < array -> array_size; i++) {
+    int i;
+    for(i = 0; i < array -> array_size; i++) {
         remove_block(array, i);
     }
     free(array -> block_array);

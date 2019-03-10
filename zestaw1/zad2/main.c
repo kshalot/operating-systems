@@ -26,7 +26,8 @@ void add_delete_loop(Array* array, int number_of_blocks) {
         exit(1);
     }
     char* block = "Block text";
-    for(int i = 0; i < number_of_blocks; i++) {
+    int i;
+    for(i = 0; i < number_of_blocks; i++) {
         int index = add_block(array, block);
         remove_block(array, index);
     }
@@ -47,7 +48,8 @@ int main(int argc, char **argv) {
 
     Array* array = NULL;
 
-    for(int i = 1; i < argc; i++) {
+    int i;
+    for(i = 1; i < argc; i++) {
         if(strcmp(argv[i], "create_table") == 0) {
             if(++i == argc) {
                 fprintf(stderr, "Specify table size!\n");

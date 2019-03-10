@@ -10,6 +10,7 @@ typedef struct Array {
     int blockSize;
     char* currentDir;
     char* targetFile;
+    char* tempFile;
 } Array;
 
 Array* create(int numberOfBlock);

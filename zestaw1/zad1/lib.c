@@ -13,11 +13,10 @@ Array* create(int numberOfBlocks) {
     return result;
 }
 
-//TODO Ma zwracać index i dodawać na pierwsze wolne miejsce!
 int addBlock(Array* array, char* block) {
     if(array == NULL) {
         fprintf(stderr, "Uninitialised block array\n");
-        return -1;
+        exit(1);
     }
     int index = 0;
     while(array->blockArr[index] != NULL) {
@@ -25,20 +24,20 @@ int addBlock(Array* array, char* block) {
     }
     array -> blockArr[index] = calloc(array->blockSize+1, sizeof(char));
     strcpy(array -> blockArr[index], block);
-    return 0;
+    return index;
 }
 
 int removeBlock(Array* array, int index) {
     if(array == NULL) {
         fprintf(stderr, "Uninitialised block array\n");
-        return -1;
+        exit(1);
     }
     if(index >= array -> arraySize || index < 0) {
         fprintf(stderr, "Index out of bounds\n");
-        return -1;
+        exit(1);
     }
     if(array -> blockArr[index] == NULL) {
-        fprintf(stderr, "Uninitialised block\n");
+        // fprintf(stderr, "Uninitialised block\n");
         return -1;
     }
 
@@ -50,7 +49,7 @@ int removeBlock(Array* array, int index) {
 int setDir(Array* array, char* dirname) {
     if(array == NULL) {
         fprintf(stderr, "Uninitialised block array\n");
-        return -1;
+        exit(1);
     }
     array -> currentDir = dirname;
     return 0;
@@ -59,32 +58,42 @@ int setDir(Array* array, char* dirname) {
 int setTargetFile(Array* array, char* filename) {
     if(array == NULL) {
         fprintf(stderr, "Uninitialised block array\n");
-        return -1;
+        exit(1);
     }
     array -> targetFile = filename;
+    return 0;
+}
+
+int setTemp(Array* array, char* filename) {
+    if(array == NULL) {
+        fprintf(stderr, "Uninitialised blocka array\n");
+        exit(1);
+    }
+    array -> tempFile = filename;
     return 0;
 }
 
 int find(Array* array) {
     if(array == NULL) {
         fprintf(stderr, "Uninitialised block array\n");
-        return -1;
+        exit(1);
     }
     int bufferLength = 32 + strlen(array->currentDir) + strlen(array->targetFile);
     char command[bufferLength];
-    sprintf(command, "find %s -type f -name %s > temp.txt", array->currentDir, array->targetFile);
+    sprintf(command, "find %s -type f -name %s > %s", array->currentDir,
+     array->targetFile, array->tempFile);
     return system(command);
 }
 
 int read(Array* array) {
     if(array == NULL) {
         fprintf(stderr, "Uninitialised block array\n");
-        return -1;
+        exit(1);
     }
-    FILE* fp = fopen("temp.txt", "r");
+    FILE* fp = fopen(array -> tempFile, "r");
     if (fp == NULL) {
-        fprintf(stderr, "Error while reading \"temp.txt\" file");
-        return -1;
+        fprintf(stderr, "Error while reading \"%s\" file", array->tempFile);
+        exit(1);
     }
     fseek(fp, 0L, SEEK_END);
     long size = ftell(fp);
@@ -97,4 +106,15 @@ int read(Array* array) {
     addBlock(array, block);
 
     return 0;
+}
+
+int deleteArray(Array* array) {
+    if(array == NULL) {
+        return 1;
+    }
+    for(int i = 0; i < array->arraySize; i++) {
+        removeBlock(array, i);
+    }
+    free(array -> blockArr);
+    array -> blockArr = NULL;
 }

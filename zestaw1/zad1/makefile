@@ -16,3 +16,6 @@ shared:
 clean:
 	rm -f *.o
 
+purge: clean
+	rm -f *.so
+	rm -f *.a
