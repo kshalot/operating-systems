@@ -1,0 +1,144 @@
+		STATIC VERSION
+
+
+ALLOCATING BIG ARRAY, CROSS ADDING AND REMOVING A LOT OF ELEMENTS
+Creating array of size 100000000
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Adding and deleting 10000000 blocks
+Real:   0.33 s   User:   0.33 s   System: 0.00 s
+
+Freeing array memory
+
+Real:   0.45 s   User:   0.45 s   System: 0.00 s
+
+################################################
+
+SHALLOW SEARCH - ONE DIRECTORY, ONE FILE FOUND, SMALL BLOCK
+Creating array of size 100000
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Setting dir, target, temp and saving find to temp
+Real:   0.01 s   User:   0.00 s   System: 0.00 s
+
+Copying temporary file into array
+Size of block: 11
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Removing block
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Freeing array memory
+
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+################################################
+
+DEEP SEARCH - MANY DIRECTORIES, MANY FILES, BIG BLOCK
+Creating array of size 100000
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Setting dir, target, temp and saving find to temp
+Real:   0.45 s   User:   0.00 s   System: 0.00 s
+
+Copying temporary file into array
+Size of block: 49986
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Removing block
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Freeing array memory
+
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+################################################
+
+DEEP SEARCH - SOME DIRECTORIES, HUGE AMOUNT OF FILES, VERY BIG BLOCK
+Creating array of size 20
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Setting dir, target, temp and saving find to temp
+Real:   0.01 s   User:   0.00 s   System: 0.00 s
+
+Copying temporary file into array
+Size of block: 64089
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Removing block
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Freeing array memory
+
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+################################################
+
+		SHARED VERSION
+
+
+ALLOCATING BIG ARRAY, CROSS ADDING AND REMOVING A LOT OF ELEMENTS
+Creating array of size 100000000
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Adding and deleting 10000000 blocks
+Real:   0.31 s   User:   0.31 s   System: 0.00 s
+
+Freeing array memory
+
+Real:   0.50 s   User:   0.50 s   System: 0.00 s
+
+################################################
+
+SHALLOW SEARCH - ONE DIRECTORY, ONE FILE FOUND, SMALL BLOCK
+Creating array of size 100000
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Setting dir, target, temp and saving find to temp
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Copying temporary file into array
+Size of block: 11
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Freeing array memory
+
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+################################################
+
+DEEP SEARCH - MANY DIRECTORIES, MANY FILES, BIG BLOCK
+Creating array of size 100000
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Setting dir, target, temp and saving find to temp
+Real:   0.46 s   User:   0.00 s   System: 0.00 s
+
+Copying temporary file into array
+Size of block: 49986
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Freeing array memory
+
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+################################################
+
+DEEP SEARCH - MANY DIRECTORIES, HUGE AMOUNT OF FILES, VERY BIG BLOCK
+Creating array of size 20
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Setting dir, target, temp and saving find to temp
+Real:   0.01 s   User:   0.00 s   System: 0.00 s
+
+Copying temporary file into array
+Size of block: 64089
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Removing block
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
+Freeing array memory
+
+Real:   0.00 s   User:   0.00 s   System: 0.00 s
+
