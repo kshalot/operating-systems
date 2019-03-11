@@ -20,9 +20,9 @@ shared:
 
 clean:
 	rm -f *.o
+	rm -f *.a
 
 purge: clean
-	rm -f *.a
 	rm -f *.so
 	rm -f $(MAIN)_shared
 	rm -f $(MAIN)_static
