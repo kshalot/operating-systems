@@ -4,10 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sys/times.h>
-
-#ifndef DLL
 #include "lib.h"
-#endif
 
 
 double time_elapsed(clock_t begin, clock_t end) {
