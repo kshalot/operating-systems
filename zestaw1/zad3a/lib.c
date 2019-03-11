@@ -22,7 +22,7 @@ int add_block(Array* array, char* block) {
     while(array -> block_array[index] != NULL) {
         index += 1;
     }
-    array -> block_array[index] = calloc(array -> block_size+1, sizeof(char));
+    array -> block_array[index] = calloc(array -> block_size, sizeof(char));
     strcpy(array -> block_array[index], block);
     return index;
 }
@@ -99,6 +99,7 @@ int read_temp(Array* array) {
     printf("Size of block: %lu\n", size);
     fseek(fp, 0L, SEEK_SET);
     char* block = calloc(size, sizeof(char));
+    array -> block_size = size;
     if(block) {
         fread(block, 1, size, fp);
     }

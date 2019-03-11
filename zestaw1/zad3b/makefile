@@ -42,6 +42,8 @@ measurement:
 	./$(MAIN)_static create_table 100000 search_directory . makefile temp.txt dump remove_block 0| tee -a $(REPORT_FILE)
 	printf "DEEP SEARCH - MANY DIRECTORIES, MANY FILES, BIG BLOCK\n" >> $(REPORT_FILE)
 	./$(MAIN)_static create_table 100000 search_directory /usr \'*.txt\' temp.txt dump remove_block 0| tee -a $(REPORT_FILE)
+	printf "DEEP SEARCH - HUGE AMOUNT OF DIRECTORIES, HUGE BLOCK\n"
+	./$(MAIN)_static create_table 10 search_directory /usr \'*\' temp.txt dump remove_block 0 | tee -a $(REPORT_FILE)
 	printf "################################################\n\n" >> $(REPORT_FILE)
 	printf "\t\tSHARED VERSION -O$(opt)\n\n\n" >> $(REPORT_FILE)
 	printf "ALLOCATING BIG ARRAY, CROSS ADDING AND REMOVING A LOT OF ELEMENTS\n" >> $(REPORT_FILE)
@@ -50,6 +52,8 @@ measurement:
 	./$(MAIN)_shared create_table 100000 search_directory . makefile temp.txt dump | tee -a $(REPORT_FILE)
 	printf "DEEP SEARCH - MANY DIRECTORIES, MANY FILES, BIG BLOCK\n" >> $(REPORT_FILE)
 	./$(MAIN)_shared create_table 100000 search_directory /usr \'*.txt\' temp.txt dump | tee -a $(REPORT_FILE)
+	printf "DEEP SEARCH - HUGE AMOUNT OF DIRECTORIES, HUGE BLOCK\n"
+	./$(MAIN)_static create_table 10 search_directory /usr \'*\' temp.txt dump remove_block 0 | tee -a $(REPORT_FILE)
 	printf "################################################\n\n" >> $(REPORT_FILE)
 	printf "\t\tDYNAMIC VERSION -O$(opt)\n\n\n" >> $(REPORT_FILE)
 		printf "ALLOCATING BIG ARRAY, CROSS ADDING AND REMOVING A LOT OF ELEMENTS\n" >> $(REPORT_FILE)
@@ -58,6 +62,8 @@ measurement:
 	./$(MAIN)_dynamic create_table 100000 search_directory . makefile temp.txt dump | tee -a $(REPORT_FILE)
 	printf "DEEP SEARCH - MANY DIRECTORIES, MANY FILES, BIG BLOCK\n" >> $(REPORT_FILE)
 	./$(MAIN)_dynamic create_table 100000 search_directory /usr \'*.txt\' temp.txt dump | tee -a $(REPORT_FILE)
+	printf "DEEP SEARCH - HUGE AMOUNT OF DIRECTORIES, HUGE BLOCK\n"
+	./$(MAIN)_static create_table 10 search_directory /usr \'*\' temp.txt dump remove_block 0 | tee -a $(REPORT_FILE)
 	printf "\n\n\n\n\n" >> $(REPORT_FILE)
 
 measurements:
