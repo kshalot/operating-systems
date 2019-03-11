@@ -4,6 +4,11 @@ LIB = lib
 MAIN = main
 REPORT_FILE = "raport2.txt"
 
+CROSS = create_table 100000000 add_delete_loop 10000000
+SHALLOW = create_table 100000 search_directory . makefile temp.txt dump remove_block 0
+DEEP_BIG = create_table 100000 search_directory /usr \'*.txt\' temp.txt dump remove_block 0
+DEEP_HUGE = create_table 10 search_directory /usr \'*\' temp.txt dump remove_block 0
+
 all: static shared measurements clean
 
 static:
@@ -28,22 +33,13 @@ purge: clean
 	rm -f $(MAIN)_static
 
 measurements:
-	printf "\t\tSTATIC VERSION\n\n\n" >> $(REPORT_FILE)
-	printf "ALLOCATING BIG ARRAY, CROSS ADDING AND REMOVING A LOT OF ELEMENTS\n" >> $(REPORT_FILE)
-	./$(MAIN)_static create_table 100000000 add_delete_loop 10000000 | tee -a $(REPORT_FILE)
-	printf "SHALLOW SEARCH - ONE DIRECTORY, ONE FILE FOUND, SMALL BLOCK\n" >> $(REPORT_FILE)
-	./$(MAIN)_static create_table 100000 search_directory . makefile temp.txt dump remove_block 0| tee -a $(REPORT_FILE)
-	printf "DEEP SEARCH - MANY DIRECTORIES, MANY FILES, BIG BLOCK\n" >> $(REPORT_FILE)
-	./$(MAIN)_static create_table 100000 search_directory /usr \'*.txt\' temp.txt dump remove_block 0| tee -a $(REPORT_FILE)
-	printf "DEEP SEARCH - HUGE AMOUNT OF DIRECTORIES, HUGE BLOCK\n"
-	./$(MAIN)_static create_table 10 search_directory /usr \'*\' temp.txt dump remove_block 0 | tee -a $(REPORT_FILE)
-	printf "################################################\n\n" >> $(REPORT_FILE)
-	printf "\t\tSHARED VERSION\n\n\n" >> $(REPORT_FILE)
-	printf "ALLOCATING BIG ARRAY, CROSS ADDING AND REMOVING A LOT OF ELEMENTS\n" >> $(REPORT_FILE)
-	./$(MAIN)_shared create_table 100000000 add_delete_loop 10000000 | tee -a $(REPORT_FILE)
-	printf "SHALLOW SEARCH - ONE DIRECTORY, ONE FILE FOUND, SMALL BLOCK\n" >> $(REPORT_FILE)
-	./$(MAIN)_shared create_table 100000 search_directory . makefile temp.txt dump | tee -a $(REPORT_FILE)
-	printf "DEEP SEARCH - MANY DIRECTORIES, MANY FILES, BIG BLOCK\n" >> $(REPORT_FILE)
-	./$(MAIN)_shared create_table 100000 search_directory /usr \'*.txt\' temp.txt dump | tee -a $(REPORT_FILE)
-	printf "DEEP SEARCH - HUGE AMOUNT OF DIRECTORIES, HUGE BLOCK\n"
-	./$(MAIN)_static create_table 10 search_directory /usr \'*\' temp.txt dump remove_block 0 | tee -a $(REPORT_FILE)
+	printf "STATIC\n\n" >> $(REPORT_FILE)
+	./$(MAIN)_static $(CROSS) | tee -a $(REPORT_FILE)
+	./$(MAIN)_static $(SHALLOW) | tee -a $(REPORT_FILE)
+	./$(MAIN)_static $(DEEP_BIG) | tee -a $(REPORT_FILE)
+	./$(MAIN)_static $(DEEP_HUGE) | tee -a $(REPORT_FILE)
+	printf "SHARED\n\n" >> $(REPORT_FILE)
+	./$(MAIN)_shared $(CROSS) | tee -a $(REPORT_FILE)
+	./$(MAIN)_shared $(SHALLOW) | tee -a $(REPORT_FILE)
+	./$(MAIN)_shared $(DEEP_BIG) | tee -a $(REPORT_FILE)
+	./$(MAIN)_shared $(DEEP_HUGE) | tee -a $(REPORT_FILE)
