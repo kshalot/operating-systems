@@ -2,7 +2,7 @@ CC = gcc
 FLAGS = -Wall
 LIB = lib
 MAIN = main
-REPORT_FILE = "raport3a.txt"
+REPORT_FILE = "raport3b.txt"
 
 all: static shared dynamic measurements clean
 
