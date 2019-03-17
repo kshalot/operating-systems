@@ -172,8 +172,8 @@ double time_elapsed(clock_t begin, clock_t end) {
 void print_time(char* command, struct tms tms_start, struct tms tms_end) {
     printf("%s\n", command);
     printf("User:   %.5lf s   ", time_elapsed(tms_start.tms_utime, tms_end.tms_utime));
-    printf("System: %.5lf s\n\n", time_elapsed(tms_start.tms_stime, tms_end.tms_stime));
-    printf("----------------------------------------------\n");
+    printf("System: %.5lf s\n", time_elapsed(tms_start.tms_stime, tms_end.tms_stime));
+    printf("-----------------------------------------\n");
 }
 
 int main(int argc, char **argv) {
@@ -182,11 +182,11 @@ int main(int argc, char **argv) {
         exit(-1);
     }
     int i;
-    char command[200];
+    char command[1000];
     srand(time(NULL));
 
-    struct tms* start = malloc(sizeof(struct tms*));
-    struct tms* end = malloc(sizeof(struct tms*));
+    struct tms *start = malloc(sizeof(struct tms));
+    struct tms *end = malloc(sizeof(struct tms));
 
     for(i = 1; i < argc; i++) {
         times(start);
@@ -212,7 +212,7 @@ int main(int argc, char **argv) {
             if(strcmp(argv[++i], "sys") == 0) {
                 sys_sort(quantity, size, filename);
             }
-            else if(strcmp(argv[++i], "lib") == 0) {
+            else if(strcmp(argv[i], "lib") == 0) {
                 lib_sort(quantity, size, filename);
             }
             else {
@@ -233,7 +233,7 @@ int main(int argc, char **argv) {
             if(strcmp(argv[++i], "sys") == 0) {
                 sys_copy(quantity, size, source, destination);
             }
-            else if(strcmp(argv[++i], "lib") == 0) {
+            else if(strcmp(argv[i], "lib") == 0) {
                 lib_copy(quantity, size, source, destination);
             }
             else {
