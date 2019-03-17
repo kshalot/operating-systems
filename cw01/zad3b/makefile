@@ -61,8 +61,3 @@ measurement: static shared dynamic
 	./$(MAIN)_dynamic $(DEEP_HUGE) | tee -a $(REPORT_FILE)
 	make purge
 
-measurements:
-	make measurement opt=0
-	make measurement opt=1
-	make measurement opt=2
-	make measurement opt=3
