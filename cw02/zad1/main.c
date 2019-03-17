@@ -247,7 +247,7 @@ int main(int argc, char **argv) {
             exit(-1);
         }
         times(end);
-        print_time(command, start, end);
+        print_time(command, *start, *end);
     }
     return 0;
 }
