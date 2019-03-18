@@ -46,6 +46,8 @@ int print_file(struct stat file_stat, const char *path) {
                 printf("Unkown");
         }
         printf("\nsize: %ld\n", file_stat.st_size);
+        printf("Access time: %s", ctime(&file_stat.st_atime));
+        printf("Modification time: %s\n", ctime(&file_stat.st_mtime));
     }
     return 0;
 }
