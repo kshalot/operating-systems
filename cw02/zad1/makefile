@@ -11,37 +11,37 @@ SYS_SORT = sort $(DEST_SYS) $(QUANTITY) $(SIZE) sys
 LIB_SORT = sort $(DEST_LIB) $(QUANTITY) $(SIZE) lib
 
 SIZE = 1
-FILE = data_1
+FILE = generate_1
 DEST_SYS = copy_sys_1
 DEST_LIB = copy_lib_1
 OPERATIONS_1 := $(GENERATE) $(SYS_COPY) $(LIB_COPY) $(SYS_SORT) $(LIB_SORT)
-SIZE = 4
 
-FILE = data_4
+SIZE = 4
+FILE = generate_4
 DEST_SYS = copy_sys_4
 DEST_LIB = copy_lib_4
 OPERATIONS_4 := $(GENERATE) $(SYS_COPY) $(LIB_COPY) $(SYS_SORT) $(LIB_SORT)
 
 SIZE = 512
-FILE = data_512
+FILE = generate_512
 DEST_SYS = copy_sys_512
 DEST_LIB = copy_lib_512
 OPERATIONS_512 := $(GENERATE) $(SYS_COPY) $(LIB_COPY) $(SYS_SORT) $(LIB_SORT)
 
 SIZE = 1024
-FILE = data_1024
+FILE = generate_1024
 DEST_SYS = copy_sys_1024
 DEST_LIB = copy_lib_1024
 OPERATIONS_1024 := $(GENERATE) $(SYS_COPY) $(LIB_COPY) $(SYS_SORT) $(LIB_SORT)
 
 SIZE = 4096
-FILE = data_4096
+FILE = generate_4096
 DEST_SYS = copy_sys_4096
 DEST_LIB = copy_lib_4096
 OPERATIONS_4096 := $(GENERATE) $(SYS_COPY) $(LIB_COPY) $(SYS_SORT) $(LIB_SORT)
 
 SIZE = 8192
-FILE = data_8192
+FILE = generate_8192
 DEST_SYS = copy_sys_8192
 DEST_LIB = copy_lib_8192
 OPERATIONS_8192 := $(GENERATE) $(SYS_COPY) $(LIB_COPY) $(SYS_SORT) $(LIB_SORT)
