@@ -30,15 +30,15 @@ int print_file(struct stat file_stat, const char *path) {
             case S_IFBLK:
                 printf("block");
                 break;
-            // case S_ISFIFO:
-                // printf("fifo");
-                // break;
-            // case S_ISLINK:
-                // printf("symlink");
-                // break;
-            // case S_ISCHR:
-                // printf("char");
-                // break;
+            case S_IFIFO:
+                printf("fifo");
+                break;
+            case S_IFLNK:
+                printf("symlink");
+                break;
+            case S_IFCHR:
+                printf("char");
+                break;
             case S_IFSOCK:
                 printf("socket");
                 break;
