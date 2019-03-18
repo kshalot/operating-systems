@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <sys/sysmacros.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <dirent.h>
@@ -17,7 +18,34 @@ int print_file(struct stat file_stat, const char *path) {
     if((mode == '<' && localtime(&(file_stat.st_mtime)) < reference_date) ||
        (mode == '=' && localtime(&(file_stat.st_mtime)) == reference_date) ||
        (mode == '>' && localtime(&(file_stat.st_mtime)) > reference_date)) {
-            printf("%s\n", path);
+        printf("path: %s\n", path);
+        printf("type: ");
+        switch(file_stat.st_mode & S_IFMT) {
+            case S_IFREG:
+                printf("file");
+                break;
+            case S_IFDIR:
+                printf("dir");
+                break;
+            case S_IFBLK:
+                printf("block");
+                break;
+            // case S_ISFIFO:
+                // printf("fifo");
+                // break;
+            // case S_ISLINK:
+                // printf("symlink");
+                // break;
+            // case S_ISCHR:
+                // printf("char");
+                // break;
+            case S_IFSOCK:
+                printf("socket");
+                break;
+            default:
+                printf("Unkown");
+        }
+        printf("\nsize: %ld\n", file_stat.st_size);
     }
     return 0;
 }
