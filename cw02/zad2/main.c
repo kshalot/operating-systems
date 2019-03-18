@@ -13,11 +13,23 @@
 struct tm *reference_date;
 char mode;
 
+int compare_times(struct tm *x, struct tm *y) {
+    if(x->tm_year == y->tm_year && x->tm_mon == y->tm_mon && x->tm_mday == y->tm_mday) return 0;
+    if(x->tm_year > y->tm_year) return 1;
+    if(x->tm_year == y->tm_year && x->tm_mon > y->tm_mon) return 1;
+    if(x->tm_year == y->tm_year && x->tm_mon == y->tm_mon && x->tm_mday > y->tm_mday) return 1;
+    return -1;
+}
+
+
 int print_file(struct stat file_stat, const char *path) {
     
-    if((mode == '<' && localtime(&(file_stat.st_mtime)) < reference_date) ||
-       (mode == '=' && localtime(&(file_stat.st_mtime)) == reference_date) ||
-       (mode == '>' && localtime(&(file_stat.st_mtime)) > reference_date)) {
+    // if((mode == '<' && localtime(&(file_stat.st_mtime)) < reference_date) ||
+    //    (mode == '=' && localtime(&(file_stat.st_mtime)) == reference_date) ||
+    //    (mode == '>' && localtime(&(file_stat.st_mtime)) > reference_date)) {
+    if((mode == '<' && compare_times(reference_date, localtime(&(file_stat.st_mtime))) == -1) ||
+       (mode == '=' && compare_times(reference_date, localtime(&(file_stat.st_mtime))) == 0) ||
+       (mode == '>' && compare_times(reference_date, localtime(&(file_stat.st_mtime))) == 1)) {
         printf("path: %s\n", path);
         printf("type: ");
         switch(file_stat.st_mode & S_IFMT) {
@@ -81,7 +93,8 @@ int search_directory(char *dir_path) {
 }
 
 int nftw_fn(const char *fpath, const struct stat *sb, int typeflag, struct FTW *ftwbuf) {
-    print_file(*sb, fpath);
+    if(!S_ISDIR(sb->st_mode))
+        print_file(*sb, fpath);
     return 0;
 }
 
