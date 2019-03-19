@@ -21,7 +21,6 @@ int compare_times(struct tm *x, struct tm *y) {
     return -1;
 }
 
-
 int print_file(struct stat file_stat, const char *path) {
     
     // if((mode == '<' && localtime(&(file_stat.st_mtime)) < reference_date) ||
