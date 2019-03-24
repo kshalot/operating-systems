@@ -100,7 +100,6 @@ int monitor(char *filename, int time, int freq) {
                 modification_date = last_modification_date;
                 copies_made++;
             }
-
         }
     }
     return copies_made;
