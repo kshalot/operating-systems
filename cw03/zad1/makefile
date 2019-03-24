@@ -4,9 +4,13 @@ MAIN = main
 
 compile: clean
 	$(CC) -o $(MAIN) $(MAIN).c
-	ln -s main.c symlink
-	./$(MAIN) . 2019-03-18 '=' stat
-	./$(MAIN) . 2019-01-01 '<' nftw
+	mkdir testdir1
+	mkdir testdir1/testdir2
+	touch testdir1/file1
+	touch testdir1/testdir2/file2
+	ln -s main.c testdir1/symlink
+	./$(MAIN) .
+	make clean
 
 clean:
-	rm -f symlink
+	rm -rf testdir1
