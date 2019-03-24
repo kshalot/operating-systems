@@ -1,14 +1,10 @@
-#define _XOPEN_SOURCE 700
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/stat.h>
-#include <sys/sysmacros.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <dirent.h>
 #include <string.h>
-#include <time.h>
 #include <ftw.h>
 
 int search_directory(char *dir_path) {
