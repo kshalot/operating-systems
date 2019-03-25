@@ -21,8 +21,6 @@ int main(int argc, char **argv) {
     if(pid == 0) {
         int hold_time = rand() % (pmax - pmin + 1) + pmin;
         char *random = malloc(bytes * sizeof(char));
-        for(int i = 0; i < bytes; i++)
-            random[i] = rand() % 57 + 65;
         char *date = malloc(21 * sizeof(char));
 
         int duration = 30;
@@ -34,6 +32,8 @@ int main(int argc, char **argv) {
                 return 1;
             }
             time_t current_time = time(NULL);
+            for(int i = 0; i < bytes; i++)
+                random[i] = rand() % 57 + 65;
             strftime(date, 21, "%Y-%m-%d_%H-%M-%S", localtime(&current_time));
             fprintf(file, "pid: %d seconds: %d date: %s random string: %s\n", getpid(), hold_time, date, random);
             fclose(file);
