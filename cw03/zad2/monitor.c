@@ -128,16 +128,14 @@ int main(int argc, char **argv) {
     int path_counter = 0;
     fread(paths, sizeof(char), list_size, fp);
 
-    char *current_path = strtok(paths, "\n");
+    char *current_path = strtok(paths, " \n");
     while(current_path != NULL) {
-        printf("%s\n", current_path);
         path_counter++;
-        //placeholder freq
-        int freq = 2;
+        int freq = atoi(strtok(NULL, " \n"));
         pid_t pid = fork();
         if(pid == 0)
             return monitor(current_path, time, freq);
-        current_path = strtok(NULL, "\n");
+        current_path = strtok(NULL, " \n");
     }
     while(path_counter--) {
         int status;

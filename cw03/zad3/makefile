@@ -4,7 +4,7 @@ FLAGS = -Wall
 tests: compile
 	mkdir archive
 	touch list
-	echo -e "testfile1\ntestfile2\n" > list
+	echo -e "testfile1 2\ntestfile2 1\n" > list
 	touch testfile1 testfile2
 	./tester testfile1 1 4 10
 	./tester testfile2 1 10 20
