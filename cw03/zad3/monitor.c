@@ -160,11 +160,11 @@ int main(int argc, char **argv) {
         int status;
         struct rusage before;
         struct rusage after;
-        if(getrusage(RUSAGE_CHILDREN, &before)) {
+        if(getrusage(RUSAGE_CHILDREN, &before) != 0) {
             return 1;
         }
         pid_t pid = wait(&status);
-        if(getrusage(RUSAGE_CHILDREN, &after)) {
+        if(getrusage(RUSAGE_CHILDREN, &after) != 0) {
             return 1;
         }
         if(pid > 0)
