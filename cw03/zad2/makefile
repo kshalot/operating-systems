@@ -4,9 +4,10 @@ FLAGS = -Wall
 tests: compile
 	mkdir archive
 	touch list
-	echo -e "testfile\n" > list
-	touch testfile
-	./tester testfile 1 4 10
+	echo -e "testfile1\ntestfile2\n" > list
+	touch testfile1 testfile2
+	./tester testfile1 1 4 10
+	./tester testfile2 1 10 20
 	./monitor list 20 1
 
 compile:
@@ -14,7 +15,7 @@ compile:
 	$(CC) $(FLAGS) -o tester tester.c
 
 clean:
-	rm list testfile
+	rm list testfile*
 
 purge: clean
 	rm -rf archive monitor tester

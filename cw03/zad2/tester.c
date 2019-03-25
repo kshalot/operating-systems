@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
         char *date = malloc(21 * sizeof(char));
 
         int duration = 30;
-        while(duration -= hold_time) {
+        while(duration > 0) {
             sleep(hold_time);
             FILE *file = fopen(filename, "a");
             if(file == NULL) {
@@ -37,6 +37,7 @@ int main(int argc, char **argv) {
             strftime(date, 21, "%Y-%m-%d_%H-%M-%S", localtime(&current_time));
             fprintf(file, "pid: %d seconds: %d date: %s random string: %s\n", getpid(), hold_time, date, random);
             fclose(file);
+            duration -= hold_time;
         }
     }
     return 0;
