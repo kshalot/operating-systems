@@ -48,8 +48,21 @@ void rt_sigsetup(void (*f) (int, siginfo_t*, void*)) {
 }
 
 void handle_kill(int sig, siginfo_t *info, void *context) {
-    if(sig == SIGUSR1)
+    if(sig == SIGUSR1) {
         signal_count++;
+        if(signal_count < expected_count) {
+            if(kill(info->si_pid, SIGUSR1) != 0) {
+                fprintf(stderr, "An error occurred\n");
+                exit(-1);
+            }
+        }
+        else {
+            if(kill(info->si_pid, SIGUSR2) != 0) {
+                fprintf(stderr, "An error occurred\n");
+                exit(-1);
+            }
+        }
+    }
     else if(sig == SIGUSR2) {
         printf("Got back %d out of %d signals\n", signal_count, expected_count);
         exit(0);
@@ -60,6 +73,19 @@ void handle_queue(int sig, siginfo_t *info, void *context) {
     if(sig == SIGUSR1) {
         signal_count++;
         printf("SIGUSR1 no. %d caught\n", info->si_value.sival_int);
+        if(signal_count < expected_count) {
+            union sigval val = {signal_count};
+            if (sigqueue(info->si_pid, SIGUSR1, val) != 0) {
+                fprintf(stderr, "An error occurred\n");
+                exit(-1);
+            }
+        }
+        else {
+            if(kill(info->si_pid, SIGUSR2) != 0) {
+                fprintf(stderr, "An error occurred\n");
+                exit(-1);
+            }
+        }
     }
     else if(sig == SIGUSR2) {
         printf("Got back %d out of %d signals\n", signal_count, expected_count);
@@ -68,8 +94,21 @@ void handle_queue(int sig, siginfo_t *info, void *context) {
 }
 
 void handle_sigrt(int sig, siginfo_t *info, void *context) {
-    if(sig == SIGRTMIN)
+    if(sig == SIGRTMIN) {
         signal_count++;
+        if(signal_count < expected_count) {
+            if(kill(info->si_pid, SIGRTMIN) != 0) {
+                fprintf(stderr, "An error occurred\n");
+                exit(-1);
+            }
+        }
+        else {
+            if(kill(info->si_pid, SIGRTMAX) != 0) {
+                fprintf(stderr, "An error occurred\n");
+                exit(-1);
+            }
+        }
+    }
     else if (sig == SIGRTMAX) {
         printf("Got back %d out of %d signals\n", signal_count, expected_count);
         exit(0);
@@ -88,42 +127,23 @@ int main(int argc, char **argv) {
 
     if(strcmp(mode, "KILL") == 0) {
         sigsetup(handle_kill);
-        int i;
-        for(i = 0; i < expected_count; i++)
-            if(kill(pid, SIGUSR1) != 0) {
-                fprintf(stderr, "Signal SIGUSR1 wasn't sent properly\n");
-                exit(-1);
-            }
-        if(kill(pid, SIGUSR2) != 0) {
-            fprintf(stderr, "Signal SIGURS2 wasn't sent properly\n");
+        if(kill(pid, SIGUSR1) != 0) {
+            fprintf(stderr, "Signal SIGUSR1 wasn't sent properly\n");
             exit(-1);
         }
     }
     else if(strcmp(mode, "SIGQUEUE") == 0) {
         sigsetup(handle_queue);
-        int i;
-        for(i = 0; i < expected_count; i++) {
-            union sigval val = {i};
-            if(sigqueue(pid, SIGUSR1, val) != 0) {
-                fprintf(stderr, "An error occurred\n");
-                exit(-1);
-            }
-        }
-        if(kill(pid, SIGUSR2) != 0) {
+        union sigval val = {0};
+        if(sigqueue(pid, SIGUSR1, val) != 0) {
             fprintf(stderr, "Signal SIGUSR2 wasn't sent properly\n");
             exit(-1);
         }
     }
     else if(strcmp(mode, "SIGRT") == 0) {
         rt_sigsetup(handle_sigrt);
-        int i;
-        for(i = 0; i < expected_count; i++)
-            if(kill(pid, SIGRTMIN) != 0) {
-                fprintf(stderr, "Signal SIGRTMIN wasn't sent properly\n");
-                exit(-1);
-            }
-        if(kill(pid, SIGRTMAX) != 0) {
-            fprintf(stderr, "Signal SIGRTMAX wasn't sent properly\n");
+        if(kill(pid, SIGRTMIN) != 0) {
+            fprintf(stderr, "Signal SIGRTMIN wasn't sent properly\n");
             exit(-1);
         }
     }

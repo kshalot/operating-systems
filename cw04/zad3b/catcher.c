@@ -44,49 +44,46 @@ void rt_sigsetup(void (*f) (int, siginfo_t*, void*)) {
 }
 
 void catch_kill(int sig, siginfo_t *info, void *context) {
-    if(sig == SIGUSR1)
+    if(sig == SIGUSR1) {
         signal_count++;
+        if(kill(info->si_pid, SIGUSR1) != 0) {
+            fprintf(stderr, "An error occurred\n");
+            exit(-1);
+        }
+    }
     else if(sig == SIGUSR2) {
-        int i;
-        for(i = 0; i < signal_count; i++)
-            kill(info->si_pid, SIGUSR1);
-        kill(info->si_pid, SIGUSR2);
+        if(kill(info->si_pid, SIGUSR2) != 0)
+            exit(-1);
         exit(0);
     }
 }
 
 void catch_queue(int sig, siginfo_t *info, void *context) {
-    if(sig == SIGUSR1)
+    if(sig == SIGUSR1) {
         signal_count++;
-    else if(sig == SIGUSR2) {
-        int i;
-        for(i = 0; i < signal_count; i++) {
-            union sigval val = {i};
-            if(sigqueue(info->si_pid, SIGUSR1, val) != 0) {
-                fprintf(stderr, "An error occurred\n");
-                exit(-1);
-            }
+        if(sigqueue(info->si_pid, SIGUSR1, info->si_value) != 0) {
+            fprintf(stderr, "An error occurred\n");
+            exit(-1);
         }
-        kill(info->si_pid, SIGUSR2);
+    }
+    else if(sig == SIGUSR2) {
+        if(kill(info->si_pid, SIGUSR2) != 0)
+            exit(-1);
         exit(0);
     }
 }
 
 void catch_rt(int sig, siginfo_t *info, void *context) {
-    if(sig == SIGRTMIN)
+    if(sig == SIGRTMIN) {
         signal_count++;
-    else {
-        int i;
-        for(i = 0; i < signal_count; i++) {
-            if(kill(info->si_pid, SIGRTMIN) != 0) {
-                fprintf(stderr, "An error occurred\n");
-                exit(-1);
-            }
-        }
-        if(kill(info->si_pid, SIGRTMAX) != 0) {
+        if(kill(info->si_pid, SIGRTMIN) != 0) {
             fprintf(stderr, "An error occurred\n");
             exit(-1);
         }
+    }
+    else if(sig == SIGRTMAX) {
+        if(kill(info->si_pid, SIGRTMAX) != 0)
+            exit(-1);
         exit(0);
     }
 }
