@@ -7,6 +7,7 @@ tests: compile
 	echo -e "testfile1 2\ntestfile2 1\n" > list
 	touch testfile1 testfile2
 	./tester testfile1 1 4 10
+	./tester testfile2 1 8 10
 	./monitor list 15
 
 compile:

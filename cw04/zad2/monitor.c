@@ -238,7 +238,6 @@ int main(int argc, char **argv) {
     struct sigaction action;
     action.sa_handler = handle_sigint;
     sigemptyset(&action.sa_mask);
-    action.sa_flags = 0;
     sigaction(SIGINT, &action, NULL);
 
     char *paths = malloc(list_size * sizeof(char));
