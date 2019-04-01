@@ -257,7 +257,6 @@ int main(int argc, char **argv) {
             struct sigaction child_action;
             child_action.sa_handler = handle_sigusr1;
             sigemptyset(&child_action.sa_mask);
-            child_action.sa_flags = 0;
             sigaction(SIGUSR1, &child_action, NULL);
             return monitor(current_path, time, freq);
         }
