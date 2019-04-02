@@ -180,7 +180,6 @@ int start_process(child_process *child) {
     }
 
     if(kill(child->pid, SIGUSR1) == -1) {
-        printf("SIGUSR DEAD %d", child->pid);
         return -1;
     }
     else
