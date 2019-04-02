@@ -34,8 +34,11 @@ void rt_sigsetup(void (*f) (int, siginfo_t*, void*)) {
 
     struct sigaction action;
     action.sa_sigaction = f;
-    sigemptyset(&action.sa_mask);
     action.sa_flags = SA_SIGINFO;
+
+    sigemptyset(&action.sa_mask);
+    sigaddset(&action.sa_mask, SIGRTMIN);
+    sigaddset(&action.sa_mask, SIGRTMAX);
 
     if(sigaction(SIGRTMIN, &action, NULL) == -1 || sigaction(SIGRTMAX, &action, NULL) == -1) {
         fprintf(stderr, "An error occurred\n");
