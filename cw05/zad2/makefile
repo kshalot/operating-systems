@@ -9,4 +9,4 @@ slave:
 	$(CC) $(FLAGS) -o $(SLAVE) $(SLAVE).c
 
 master:
-	$(CC) $(FLAGS) - o $(MASTER) $(MASTER).c
+	$(CC) $(FLAGS) -o $(MASTER) $(MASTER).c

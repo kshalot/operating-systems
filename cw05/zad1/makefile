@@ -3,5 +3,5 @@ FLAGS = -Wall
 MAIN = main
 
 all:
-$(CC) $(FLAGS) -o $(MAIN) $(MAIN).c
+	$(CC) $(FLAGS) -o $(MAIN) $(MAIN).c
 
