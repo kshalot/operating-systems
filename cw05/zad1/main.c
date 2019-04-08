@@ -40,8 +40,15 @@ int execute(command *cmds, int size) {
       execvp(cmd.name, cmd.argv);
     }
   }
-  close(pipes[i%2][0]);
-  close(pipes[i%2][1]);
+  close(pipes[0][0]);
+  close(pipes[0][1]);
+  close(pipes[1][0]);
+  close(pipes[1][1]);
+
+  for(i = 0; i < size; i++) {
+    int status;
+    wait(&status);
+  }
 
   return 0;
 }
@@ -90,7 +97,7 @@ command *parse_line(char *line, int *size) {
   return cmds;
 }
 
-command  *parse_file(char *file_content) {
+int parse_file(char *file_content) {
   char *saveptr;
   command *cmds = malloc((MAX_COMMANDS + 1) * sizeof(command));
   char *cmd = strtok_r(file_content, "\n", &saveptr);
@@ -102,7 +109,7 @@ command  *parse_file(char *file_content) {
     execute(cmds, size);
   }
 
-  return cmds;
+  return 0;
 }
 
 
