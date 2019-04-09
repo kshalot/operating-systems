@@ -26,16 +26,19 @@ int execute(command *cmds, int size) {
       close(pipes[i%2][0]);
       close(pipes[i%2][1]);
     }
-    pipe(pipes[i%2]);
+    if(pipe(pipes[i%2]) == -1)
+      return -1;
     pid_t pid = fork();
     if(pid == 0) {
       if(i != size - 1) {
         close(pipes[i%2][0]);
-        dup2(pipes[i%2][1], STDOUT_FILENO);
+        if(dup2(pipes[i%2][1], STDOUT_FILENO) < 0)
+          return -1
       }
       if(i != 0) {
         close(pipes[(i+1)%2][1]);
-        dup2(pipes[(i+1)%2][0], STDIN_FILENO);
+        if(dup2(pipes[(i+1)%2][0], STDIN_FILENO) < 0)
+          return -1;
       }
       execvp(cmd.name, cmd.argv);
     }
