@@ -26,12 +26,8 @@ int main(int argc, char **argv) {
     return -1;
   }
 
-	while (fgets(line, MAX, pipe) != NULL) {
-		if (write(1, line, strlen(line)) < 0) {
-      fprintf(stderr, "error write\n");
-      return -1;
-    }
-	}
+	while (fgets(line, MAX, pipe) != NULL)
+    fputs(line, stdout);
 
 	fclose(pipe);
 	return 0;
