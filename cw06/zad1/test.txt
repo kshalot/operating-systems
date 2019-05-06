@@ -1,0 +1,12 @@
+echo Echo Test
+friends 0 1 2
+2friends All Friends
+del 0 1
+2friends Only 2 Is Friend
+2all Message 1 to all
+2all Message 2 to all
+2all Message 3 to all
+2one 0 Message only to 0
+2all Message 4 to all
+2one 1 Message only to 0
+list
