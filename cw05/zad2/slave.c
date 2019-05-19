@@ -36,7 +36,7 @@ int	main(int argc, char* argv[]) {
       return -1;
   
     sleep(rand() % 4 + 2);
-	}
+  }
 
 	close(pipe);
 	return 0;

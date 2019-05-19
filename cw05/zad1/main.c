@@ -33,7 +33,7 @@ int execute(command *cmds, int size) {
       if(i != size - 1) {
         close(pipes[i%2][0]);
         if(dup2(pipes[i%2][1], STDOUT_FILENO) < 0)
-          return -1
+          return -1;
       }
       if(i != 0) {
         close(pipes[(i+1)%2][1]);

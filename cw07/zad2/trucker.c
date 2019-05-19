@@ -73,7 +73,7 @@ void init_belt(belt_t **belt, cargo_t ***cargo, int max_load, int max_weight) {
     error_exit();
 
   (*belt) = (belt_t*) shared_memory;
-  (*cargo) = malloc(sizeof(cargo_t*)*max_load);
+  (*cargo) = malloc(sizeof(cargo_t*)*(max_load + 10));
   (*belt)->current_load = 0;
   (*belt)->current_weight = 0;
   (*belt)->max_load = max_load;
