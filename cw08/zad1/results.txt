@@ -1,0 +1,63 @@
+Interleaved:
+1 threads
+Thread 1: 4579701 microseconds
+Total time passed: 4579947 microseconds
+Threading time: 4579701 microseconds
+
+2 threads
+Thread 1: 2288517 microseconds
+Thread 2: 2289982 microseconds
+Total time passed: 2290017 microseconds
+Threading time: 4578499 microseconds
+
+4 threads
+Thread 1: 2083443 microseconds
+Thread 2: 2084097 microseconds
+Thread 3: 2095165 microseconds
+Thread 4: 2086257 microseconds
+Total time passed: 2095251 microseconds
+Threading time: 8348962 microseconds
+
+8 threads
+Thread 1: 2083557 microseconds
+Thread 2: 2061696 microseconds
+Thread 3: 1806536 microseconds
+Thread 4: 1826911 microseconds
+Thread 5: 2026881 microseconds
+Thread 6: 2026285 microseconds
+Thread 7: 2090500 microseconds
+Thread 8: 2076429 microseconds
+Total time passed: 2102671 microseconds
+Threading time: 15998795 microseconds
+
+Block:
+1 threads
+Thread 1: 4588976 microseconds
+Total time passed: 4589223 microseconds
+Threading time: 4588976 microseconds
+
+2 threads
+Thread 1: 2272826 microseconds
+Thread 2: 2274784 microseconds
+Total time passed: 2274819 microseconds
+Threading time: 4547610 microseconds
+
+4 threads
+Thread 1: 2143835 microseconds
+Thread 2: 2158328 microseconds
+Thread 3: 2163288 microseconds
+Thread 4: 2151871 microseconds
+Total time passed: 2163332 microseconds
+Threading time: 8617322 microseconds
+
+8 threads
+Thread 1: 2122639 microseconds
+Thread 2: 2213669 microseconds
+Thread 3: 2135344 microseconds
+Thread 4: 2179319 microseconds
+Thread 5: 2198342 microseconds
+Thread 6: 2177141 microseconds
+Thread 7: 2199966 microseconds
+Thread 8: 2205789 microseconds
+Total time passed: 2213663 microseconds
+Threading time: 17432209 microseconds
