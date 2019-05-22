@@ -69,6 +69,8 @@ void load_cargo(belt_t *belt, cargo_t **loaded, int weight) {
   loaded[belt->current_load]->pid = getpid();
   loaded[belt->current_load]->time = microseconds();
   loaded[belt->current_load++]->weight = weight;
+  printf("%d\n", belt->current_load);
+  sleep(3);
   time_t rawtime;
   struct tm * timeinfo;
   time(&rawtime);

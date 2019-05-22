@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
 
 void teardown() {
   shmctl(shm_id, IPC_RMID, NULL);
-  semctl(sem_id, 1, IPC_RMID, NULL);
+  semctl(sem_id, 0, IPC_RMID, NULL);
 }
 
 void init_belt(belt_t **belt, cargo_t ***cargo, int max_load, int max_weight) {
@@ -120,8 +120,9 @@ void load_cargo(belt_t *belt, cargo_t **cargo) {
       printf("loader id: %d, loading time: %lu, units:%d\n", loaded->pid, microseconds() - loaded->time, loaded->weight);
       printf("truck carry status: %d/%d weight units taken\n", truck->current_weight, truck->max_weight);
     }
-
-    belt->current_load--;
+    printf("Before subtraction: %d\n", belt->current_load);
+    (belt->current_load)--;
+    printf("Current load: %d\n", belt->current_load);
     int i;
     for(i = 0; i < belt->current_load - 1; i++) {
       cargo[i] = cargo[i+1];

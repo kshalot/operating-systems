@@ -92,7 +92,7 @@ int calculate_pixel(int x, int y) {
       int b = filter_equation(x - ceil_divide(c, 2) + j - 1,
                               0,
                               input->width - 1);
-      pixel += input->buffer[a][b] * filter->buffer[i][j];
+      pixel += input->buffer[a][b] * filter->buffer[j][i];
     }
 
   return round(pixel);
@@ -110,8 +110,8 @@ static void *thread_block(void *argv) {
   gettimeofday(&start, NULL);
 
   int k = (*(int*) argv);
-  int a = k * ceil_divide(input->width, number_of_threads);
-  int b = (k + 1) * ceil_divide(input->width, number_of_threads);
+  int a = ceil_divide(k * input->width, number_of_threads);
+  int b = ceil_divide((k+1) * input->width, number_of_threads);
 
   for(int i = a; i < b; i++)
     fill_column(i);
