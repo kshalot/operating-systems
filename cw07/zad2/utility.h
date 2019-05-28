@@ -3,7 +3,7 @@
 
 #include <semaphore.h>
 
-#define SEM "/semaphore"
+#define SEM "/possem"
 #define SHM "/shared_memory"
 
 extern sem_t *sem_id;

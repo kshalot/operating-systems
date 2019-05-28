@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
   
   belt_t *belt;
   cargo_t **loaded;
-  init_semaphore();
+  init_semaphore(); 
   init_belt(&belt, &loaded);
   if(cargo_number > 0) {
     while(cargo_number > 0 && !belt->trucker_done) {
@@ -53,10 +53,9 @@ int main(int argc, char **argv) {
 }
 
 int is_overflown(belt_t *belt, int weight) {
+  take_semaphore();
   if(belt->trucker_done)
     exit(-1);
-
-  take_semaphore();
   int check_load = belt->current_load + 1 >= belt->max_load; 
   int check_weight = belt->current_weight + weight >= belt->max_weight;
 
@@ -74,14 +73,15 @@ void load_cargo(belt_t *belt, cargo_t **loaded, int weight) {
   
   loaded[belt->current_load]->pid = getpid();
   loaded[belt->current_load]->time = microseconds();
-  loaded[belt->current_load]->weight = weight;
+  loaded[belt->current_load++]->weight = weight;
+  belt->current_weight += weight;
   
   time_t rawtime;
   struct tm *timeinfo;
   time(&rawtime);
   timeinfo = localtime(&rawtime);
   printf("Cargo loaded: %d weight units, loader: %d, on: %s", weight, getpid(), asctime (timeinfo));
-  belt->current_load++;
+  sleep(2);
   release_semaphore();
 }
 

@@ -18,6 +18,7 @@ void init_belt(belt_t**, cargo_t***, int, int);
 void init_semaphore();
 void sigint_handler(int);
 void load_cargo(belt_t*, cargo_t**);
+void print_belt(belt_t*, cargo_t**);
 
 int shm_id;
 int sem_id;
@@ -101,8 +102,10 @@ void sigint_handler(int signum) {
 
 void load_cargo(belt_t *belt, cargo_t **cargo) {
   if(belt->current_load > 0) {
+    
     take_semaphore();
     cargo_t *loaded = cargo[0];
+    /* print_belt(belt, cargo); */
 
     if(loaded->weight > truck->max_weight) {
       printf("Cargo is too heavy to load\n");
@@ -119,15 +122,23 @@ void load_cargo(belt_t *belt, cargo_t **cargo) {
       printf("Cargo loaded\n");
       printf("loader id: %d, loading time: %lu, units:%d\n", loaded->pid, microseconds() - loaded->time, loaded->weight);
       printf("truck carry status: %d/%d weight units taken\n", truck->current_weight, truck->max_weight);
+      /* printf("Unloaded cargo. Load got from %d to %d\n", belt->current_load, belt->current_load - 1); */
+      loaded->pid = -100;
     }
-    printf("Before subtraction: %d\n", belt->current_load);
-    (belt->current_load)--;
-    printf("Current load: %d\n", belt->current_load);
     int i;
     for(i = 0; i < belt->current_load - 1; i++) {
-      cargo[i] = cargo[i+1];
+      cargo[i]->pid = cargo[i+1]->pid;
+      cargo[i]->time = cargo[i+1]->time;
+      cargo[i]->weight = cargo[i+1]->weight;
     }
+    belt->current_load--;
     release_semaphore();
   }
 }
 
+void print_belt(belt_t *belt, cargo_t **cargo) {
+  for(int i = 0; i < belt->max_load; i++) {
+    printf("%d, pid: %d, weight: %d, time: %ld\n", i, cargo[i]->pid, cargo[i]->weight, cargo[i]->time);
+  }
+
+}

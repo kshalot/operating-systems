@@ -83,7 +83,7 @@ void init_belt(belt_t **belt, cargo_t ***cargo, int max_load, int max_weight) {
   int i;
   for(i = 0; i < max_load; i++) {
     (*cargo)[i] = (cargo_t*) (shared_memory + sizeof(belt_t) + (i * sizeof(cargo_t)));
-    (*cargo)[i]->pid = 0;
+    (*cargo)[i]->pid = -1;
     (*cargo)[i]->time = 0;
     (*cargo)[i]->weight = 0;
   }
@@ -94,7 +94,7 @@ void init_semaphore() {
      error_exit();
 }
 
-void sigint_handler(int signum) {
+void sigint_handler(int _signum) {
   printf("Got SIGINT. Ending trucker\n");
   belt->trucker_done = 1;
   exit(0);
@@ -120,13 +120,18 @@ void load_cargo(belt_t *belt, cargo_t **cargo) {
       printf("Cargo loaded\n");
       printf("loader id: %d, loading time: %lu, units:%d\n", loaded->pid, microseconds() - loaded->time, loaded->weight);
       printf("truck carry status: %d/%d weight units taken\n", truck->current_weight, truck->max_weight);
+      loaded->pid = -100;
     }
 
-    belt->current_load--;
     int i;
     for(i = 0; i < belt->current_load - 1; i++) {
-      cargo[i] = cargo[i+1];
+      cargo[i]->pid = cargo[i+1]->pid;
+      cargo[i]->time = cargo[i+1]->time;
+      cargo[i]->weight = cargo[i+1]->weight;
     }
+    belt->current_load--;
+    printf("Po wypakowaniu: %d\n", belt->current_load);
+    sleep(2);
     release_semaphore();
   }
 }
